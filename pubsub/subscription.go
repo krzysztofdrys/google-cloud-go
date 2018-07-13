@@ -410,6 +410,7 @@ func (s *Subscription) Receive(ctx context.Context, f func(context.Context, *Mes
 	config, err := s.Config(ctx)
 	if err != nil {
 		if grpc.Code(err) == codes.Canceled {
+			fmt.Println("subscription.go#L413")
 			return nil
 		}
 		return err
@@ -482,6 +483,7 @@ func (s *Subscription) receive(ctx context.Context, po *pullOptions, fc *flowCon
 	for {
 		msgs, err := iter.receive()
 		if err == io.EOF {
+			fmt.Println("subscription.go#L486")
 			return nil
 		}
 		if err != nil {
@@ -495,6 +497,7 @@ func (s *Subscription) receive(ctx context.Context, po *pullOptions, fc *flowCon
 				for _, m := range msgs[i:] {
 					m.Nack()
 				}
+				fmt.Println("subscription.go#L500")
 				return nil
 			}
 			old := msg.doneFunc
